@@ -45,6 +45,27 @@ class GroupsController < ApplicationController
   end
   end
 
+  def join
+    @group = Group.find(params[:id])
+    if !current_user.is_member_of?(@group)
+      current_user.join!(@group)
+      flash[:notice] = "加入讨论版成功！"
+    else
+      flash[:warning] = "你已经是是讨论组成员了！"
+    end
+    redirect_to group_path(@group)
+  end
+
+  def quit
+    @group = Group.find(params[:id])
+    if current_user.is_member_of?(@group)
+      current_user.quit!(@group)
+      flash[:alert] = "已经退出讨论版"
+    else
+      flash[:warning] = "你不是讨论版成员，怎么退出"
+    end
+    redirect_to group_path(@group)
+  end 
 
   private
   def find_group_and_check_permission
