@@ -18,9 +18,9 @@ end
    end
 
    def destroy
-     @group = Group.find(params[:grop_id])
+     @group = Group.find(params[:group_id])
      @post = Post.new(post_params)
-     @post.destroy alert: "Post deleted"
+     @post.group.destroy
    end
 
    private
